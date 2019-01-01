@@ -7,12 +7,9 @@
     text-align: center;
 }
 
-/* a media selection option for css clases, 
-however, not ideal if you want to scope
- to a component or style dynamically. */
-/* 
+
 @media (min-width: 500px) {
     .Person {
         width: 450px;
     }
-} */
+}
