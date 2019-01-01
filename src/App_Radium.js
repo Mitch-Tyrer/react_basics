@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Person from './Person/Person.js'
+import Radium, {StyleRoot} from 'radium';
 
 class App extends Component {
   state = {
@@ -53,6 +54,10 @@ class App extends Component {
       border: "1px solid blue",
       padding: "8px",
       cursor: "pointer",
+      ':hover' : {
+        backgroundColor: 'lightgreen',
+        color: 'black'
+      }
       
                 // with radium you can add sudo selectors as a string.
                 // because they start with a ':' they are not valid js property names
@@ -74,6 +79,9 @@ class App extends Component {
         </div>
       );
       style.backgroundColor = "red";
+      style[':hover'] = {
+        backgroundColor: 'salmon',
+        color: 'black'
       }
     }
 
@@ -87,14 +95,16 @@ class App extends Component {
     }
 
     return (
+      <StyleRoot>
       <div className="App">
         <h1>Hi, I'm a react app!</h1>
         <p className={classes.join(' ')}>THis is really working!</p>
         <button style={style} onClick={this.togglePersonHandler}>Toggle Persons</button>
         {persons}
       </div>
+      </StyleRoot>
     )
   }
 }
 
-export default App; 
+export default Radium(App); // higher order component
