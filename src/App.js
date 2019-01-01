@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './App.css';
+import classes from'./App.css';
 import Person from './Person/Person.js'
 
 class App extends Component {
@@ -53,9 +53,6 @@ class App extends Component {
       border: "1px solid blue",
       padding: "8px",
       cursor: "pointer",
-      
-                // with radium you can add sudo selectors as a string.
-                // because they start with a ':' they are not valid js property names
     }
 
     let persons = null;
@@ -73,23 +70,22 @@ class App extends Component {
           })}
         </div>
       );
-      style.backgroundColor = "red";
-      }
+      style.backgroundColor = "red";    
     }
 
-    let classes = [];
+    let assignClasses = [];
     if(this.state.persons.length <= 2) {
-      classes.push('red'); // classes will be ['red']
+      assignClasses.push(assignClasses.red); // Classes will be ['red']
     }
 
     if(this.state.persons.length <= 1){
-      classes.push('bold'); // classes will be ['red', 'bold']
+      assignClasses.push(assignClasses.bold); // classes will be ['red', 'bold']
     }
 
     return (
-      <div className="App">
+      <div className={classes.App}>
         <h1>Hi, I'm a react app!</h1>
-        <p className={classes.join(' ')}>THis is really working!</p>
+        <p className={assignClasses.join(' ')}>THis is really working!</p>
         <button style={style} onClick={this.togglePersonHandler}>Toggle Persons</button>
         {persons}
       </div>
@@ -97,4 +93,4 @@ class App extends Component {
   }
 }
 
-export default App; 
+export default App;
