@@ -6,22 +6,32 @@ import Person from './Person/Person.js'
 class App extends Component {
   state = {
     persons: [
-      { name: "Mitch", age: 30 },
-      { name: "Cara", age: 22 },
-      { name: "Paul", age: 33 }
+      { id: "asds1", name: "Mitch", age: 30 },
+      { id: "fav1", name: "Cara", age: 22 },
+      { id: "kjasd", name: "Paul", age: 33 }
     ],
     showPersons: false
   }
 
 
-  nameChangedHandler = (event) => {
-    this.setState({
-      persons: [
-        { name: "Mitch", age: 30 },
-        { name: "Cara", age: 22 },
-        { name: event.target.value, age: 33 }
-      ]
+  nameChangedHandler = (event, id) => {
+    const personIndex = this.state.persons.findIndex(p => {
+      return p.id === id;
     });
+
+    const person = {
+      ...this.state.persons[personIndex]
+    };
+
+    // const person = Object.assign({}, this.state.persons[personIndex]);
+    // and alternative to using the spread (...) method
+
+    person.name = event.target.value;
+
+    const persons = [...this.state.persons];
+    persons[personIndex] = person;
+
+    this.setState({ persons: persons });
   }
 
   deletePersonHandler = (personIndex) => {
@@ -54,7 +64,9 @@ class App extends Component {
             return <Person 
             click={() => this.deletePersonHandler(index)} 
             name={person.name} 
-            age={person.age} />
+            age={person.age}
+            key={person.id} 
+            changed={(event) => this.nameChangedHandler(event, person.id)}/>
           })}
         </div>
       )
