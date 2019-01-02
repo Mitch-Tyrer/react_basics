@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
-import classes from'./App.css';
+import classes from './App.css';
 import Persons from '../components/Persons/Persons';
 import Cockpit from '../components/Cockpit/Cockpit';
-
+import WithClass from '../hoc/WithClass';
 class App extends PureComponent {
 
   constructor(props) {
@@ -26,14 +26,14 @@ class App extends PureComponent {
     console.log("[App.js] Inside componentDidMount()");
   }
 
- /*  shouldComponentUpdate(nextProps, nextState) {
-    console.log("[UPDATE App.js] Inside shouldComponentUpdate", nextProps, nextState);
-    return nextState.persons !== this.state.persons ||
-           nextState.showPersons !== this.state.showPersons;
-  } */
+  /*  shouldComponentUpdate(nextProps, nextState) {
+     console.log("[UPDATE App.js] Inside shouldComponentUpdate", nextProps, nextState);
+     return nextState.persons !== this.state.persons ||
+            nextState.showPersons !== this.state.showPersons;
+   } */
 
-  componentWillUpdate(nextProps, nextState){
-      console.log('[UPDATE App.js] Inside componentWillUpdate()', nextProps, nextState);
+  componentWillUpdate(nextProps, nextState) {
+    console.log('[UPDATE App.js] Inside componentWillUpdate()', nextProps, nextState);
   }
 
   componentDidUpdate() {
@@ -41,14 +41,14 @@ class App extends PureComponent {
   }
 
 
-/*   state = {
-    persons: [
-      { id: "asds1", name: "Mitch", age: 30 },
-      { id: "fav1", name: "Cara", age: 22 },
-      { id: "kjasd", name: "Paul", age: 33 }
-    ],
-    showPersons: false
-  } */
+  /*   state = {
+      persons: [
+        { id: "asds1", name: "Mitch", age: 30 },
+        { id: "fav1", name: "Cara", age: 22 },
+        { id: "kjasd", name: "Paul", age: 33 }
+      ],
+      showPersons: false
+    } */
 
 
   nameChangedHandler = (event, id) => {
@@ -75,7 +75,7 @@ class App extends PureComponent {
     // const persons = this.state.persons.slice();
     const persons = [...this.state.persons]; //does the same as splice() but is more popular
     persons.splice(personIndex, 1);
-    this.setState({persons: persons});
+    this.setState({ persons: persons });
   }
 
   togglePersonHandler = () => {
@@ -84,29 +84,29 @@ class App extends PureComponent {
   }
 
   render() {
-      console.log("[App.js] Inside render()");
+    console.log("[App.js] Inside render()");
 
     let persons = null;
 
     if (this.state.showPersons) {
-      persons = <Persons 
-          persons={this.state.persons} 
-          clicked={this.deletePersonHandler} 
-          changed={this.nameChangedHandler} 
-          />   
+      persons = <Persons
+        persons={this.state.persons}
+        clicked={this.deletePersonHandler}
+        changed={this.nameChangedHandler}
+      />
     }
 
-   
+
     return (
-      <div className={classes.App}>
-      <button onClick={() => {this.setState({showPersons: true})}}>Show Persons</button>
-      <Cockpit
-        showPersons={this.state.showPersons}
-        persons={this.state.persons}
-        clicked={this.togglePersonHandler}
-      />
+      <WithClass classes={classes.App}>
+        <button onClick={() => { this.setState({ showPersons: true }) }}>Show Persons</button>
+        <Cockpit
+          showPersons={this.state.showPersons}
+          persons={this.state.persons}
+          clicked={this.togglePersonHandler}
+        />
         {persons}
-      </div>
+      </WithClass>
     )
   }
 }
