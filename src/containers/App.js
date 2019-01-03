@@ -3,7 +3,9 @@ import classes from './App.css';
 import Persons from '../components/Persons/Persons';
 import Cockpit from '../components/Cockpit/Cockpit';
 import Aux from '../hoc/Auxiliary/Auxiliary';
-import withClass from '../hoc/withClass';
+import WithClass from '../hoc/WithClass';
+
+export const AuthContext = React.createContext(false);
 
 class App extends PureComponent {
 
@@ -17,7 +19,8 @@ class App extends PureComponent {
         { id: "kjasd", name: "Paul", age: 33 }
       ],
       showPersons: false,
-      toggledClicked: 0
+      toggledClicked: 0,
+      authenticated: false
     };
   }
 
@@ -37,6 +40,15 @@ class App extends PureComponent {
 
   componentWillUpdate(nextProps, nextState) {
     console.log('[UPDATE App.js] Inside componentWillUpdate()', nextProps, nextState);
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState){
+    console.log('[UPDATE App.js] Inside getDrivedStateFromProps', nextProps, prevState);
+    return prevState;
+  }
+
+  getSnapshotBeforeUpdate() {
+    console.log("[UPDATED App.js] Inside getSnapshotBeforeUpdate");
   }
 
   componentDidUpdate() {
@@ -93,6 +105,10 @@ class App extends PureComponent {
     });
   }
 
+  loginHandler = () => {
+    this.setState({authenticated: true});
+  }
+
   render() {
     console.log("[App.js] Inside render()");
 
@@ -114,11 +130,15 @@ class App extends PureComponent {
           showPersons={this.state.showPersons}
           persons={this.state.persons}
           clicked={this.togglePersonHandler}
+          login={this.loginHandler}
         />
-        {persons}
+        <AuthContext.Provider value={this.state.authenticated}>
+          {persons}
+        </AuthContext.Provider>
+        
       </Aux>
     )
   }
 }
 
-export default withClass(App, classes.App);
+export default WithClass(App, classes.App);

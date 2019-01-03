@@ -1,41 +1,50 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import classes from './Person.css';
-import withClass from '../../../hoc/withClass';
+import withClass from '../../../hoc/WithClass';
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
+import { AuthContext } from "../../../containers/App";
+
 // stateful form of component
 class Person extends Component {
     constructor(props) {
         super(props);
         console.log('[Person.js] Inside Constructor', props);
-      }
-    
-      componentWillMount() {
+        this.inputElement = React.createRef();
+    }
+
+    componentWillMount() {
         console.log("[Person.js] Inside componentWillMount()");
-      }
-    
-      componentDidMount() {
+    }
+
+    componentDidMount() {
         console.log("[Person.js] Inside componentDidMount()");
-        if(this.props.position === 0){
-            this.inputElement.focus();
-        } 
-      }
+        // this focusInput();
+    }
+
+
+    focus() {
+        this.inputElement.current.focus();
+    }
 
     render() {
-        console.log("[Person.js] Inside render()");   
-        
+        console.log("[Person.js] Inside render()");
+
         return (
             <Aux classes={classes.Person}>
+                <AuthContext.Consumer>
+                    {auth => auth ? <p>I'm authenticated</p> : null}
+                </AuthContext.Consumer>
                 <p onClick={this.props.click}>I'm {this.props.name} I am {this.props.age} years old!</p>
                 <p>{this.props.children}</p>
                 <input
-                    ref={(inp) => {this.inputElement = inp}}
-                    type="text" 
-                    onChange={this.props.changed} 
+                    ref={this.inputElement}
+                    type="text"
+                    onChange={this.props.changed}
                     value={this.props.name}></input>
             </Aux>
-            )
+        )
     }
 }
 
